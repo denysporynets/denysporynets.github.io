@@ -24,6 +24,8 @@
       --green-s:  rgba(34,197,94,0.08);
       --blue:     #3b82f6;
       --blue-s:   rgba(59,130,246,0.08);
+      --teal:     #0d9488;
+      --teal-s:   rgba(13,148,136,0.08);
       --text:     #eef0f8;
       --text-2:   #8890b5;
       --text-3:   #3d4268;
@@ -211,11 +213,13 @@
     .bcard.accent-green::before  { background: linear-gradient(90deg, var(--green), #4ade80); }
     .bcard.accent-violet::before { background: linear-gradient(90deg, var(--violet-d), var(--violet)); }
     .bcard.accent-gold::before   { background: linear-gradient(90deg, var(--gold), #fcd34d); }
+    .bcard.accent-teal::before   { background: linear-gradient(90deg, var(--teal), #2dd4bf); }
 
     .bcard.accent-blue:hover   { border-color: rgba(59,130,246,0.4);  box-shadow: 0 8px 32px rgba(59,130,246,0.08); }
     .bcard.accent-green:hover  { border-color: rgba(34,197,94,0.4);   box-shadow: 0 8px 32px rgba(34,197,94,0.08); }
     .bcard.accent-violet:hover { border-color: rgba(139,92,246,0.4);  box-shadow: 0 8px 32px rgba(139,92,246,0.08); }
     .bcard.accent-gold:hover   { border-color: rgba(245,158,11,0.4);  box-shadow: 0 8px 32px rgba(245,158,11,0.08); }
+    .bcard.accent-teal:hover   { border-color: rgba(13,148,136,0.4);  box-shadow: 0 8px 32px rgba(13,148,136,0.08); }
 
     .bcard-top { display: flex; justify-content: space-between; align-items: flex-start; }
     .bcard-icon { font-size: 1.5rem; line-height: 1; }
@@ -227,6 +231,7 @@
     .bcard.accent-green  .bcard-title { color: var(--green); }
     .bcard.accent-violet .bcard-title { color: var(--violet); }
     .bcard.accent-gold   .bcard-title { color: var(--gold); }
+    .bcard.accent-teal   .bcard-title { color: var(--teal); }
     .bcard-title:hover { text-decoration: underline; }
 
     .bcard-desc {
@@ -253,6 +258,7 @@
     .bcard.accent-green  .bcard-link:hover { color: var(--green); text-decoration: none; }
     .bcard.accent-violet .bcard-link:hover { color: var(--violet); text-decoration: none; }
     .bcard.accent-gold   .bcard-link:hover { color: var(--gold); text-decoration: none; }
+    .bcard.accent-teal   .bcard-link:hover { color: var(--teal); text-decoration: none; }
 
     /* ── ABOUT ── */
     .about-layout {
@@ -353,7 +359,7 @@
 <section id="proyectos">
   <div class="container">
     <div class="sec-eyebrow">trabajo seleccionado</div>
-    <div class="sec-title">Proyectos <span>4 publicados</span></div>
+    <div class="sec-title">Proyectos <span>5 publicados</span></div>
 
     <div class="bento">
 
@@ -416,6 +422,28 @@
         <div class="bcard-footer">
           <span class="bcard-meta">Claude · ChatGPT · LLMs</span>
           <a href="https://github.com/denysporynets/DS-Nexus" target="_blank" class="bcard-link">Ver repo →</a>
+        </div>
+      </div>
+
+      <!-- TFM — La Dieta de un País -->
+      <div class="bcard accent-teal fade-in">
+        <div class="bcard-top">
+          <a href="https://denysporynets.github.io/tfm-la-dieta-de-un-pais/" target="_blank" class="bcard-title">La Dieta de un País</a>
+          <span class="bcard-icon">🥑</span>
+        </div>
+        <p class="bcard-desc">
+          TFM Máster DS&AI: análisis de tipologías dietarias globales, huella de carbono y coste alimentario en 30 países (2010–2022). Tres motores analíticos (clustering, LightGBM+SHAP, forecast) y dashboard Streamlit interactivo con simulador what-if.
+        </p>
+        <div class="bcard-tags">
+          <span class="btag btag-default">Python</span>
+          <span class="btag btag-default">LightGBM</span>
+          <span class="btag btag-default">Streamlit</span>
+          <span class="btag btag-default">SHAP</span>
+          <span class="btag btag-green">Live Demo</span>
+        </div>
+        <div class="bcard-footer">
+          <span class="bcard-meta">30 países · R²=0.864 · <a href="https://avocados.streamlit.app" target="_blank" style="color:var(--teal);">avocados.streamlit.app ↗</a></span>
+          <a href="https://github.com/denysporynets/tfm-la-dieta-de-un-pais" target="_blank" class="bcard-link">Ver repo →</a>
         </div>
       </div>
 
