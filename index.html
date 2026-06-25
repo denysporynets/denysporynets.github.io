@@ -308,11 +308,75 @@
     footer a { color: var(--text-2); transition: color 0.15s; }
     footer a:hover { color: var(--violet); text-decoration: none; }
 
+    /* ── AI ENGINEERING ROADMAP ── */
+    .airoad {
+      background: linear-gradient(135deg, rgba(245,158,11,0.05) 0%, var(--surface) 55%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .airoad-top {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 16px; flex-wrap: wrap; margin-bottom: 4px;
+    }
+    .airoad-title { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; }
+    .airoad-count {
+      font-size: 0.8rem; font-weight: 600; color: var(--gold);
+      white-space: nowrap; letter-spacing: 0.02em;
+    }
+    .airoad-bar {
+      height: 6px; background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 4px; overflow: hidden; margin: 14px 0 18px;
+    }
+    .airoad-fill {
+      height: 100%; width: 16.66%;
+      background: linear-gradient(90deg, var(--gold), #fcd34d);
+      border-radius: 4px;
+    }
+    .airoad-desc {
+      font-size: 0.92rem; color: var(--text-2); max-width: 580px; margin-bottom: 22px;
+    }
+    .airoad-desc strong { color: var(--text); }
+    .artcard {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 22px 24px;
+      display: flex; gap: 18px; align-items: flex-start;
+      position: relative; overflow: hidden;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+    }
+    .artcard::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: linear-gradient(90deg, var(--gold), #fcd34d);
+    }
+    .artcard:hover {
+      transform: translateY(-3px); border-color: rgba(245,158,11,0.4);
+      box-shadow: 0 8px 32px rgba(245,158,11,0.08);
+    }
+    .artcard-icon { font-size: 1.9rem; line-height: 1; flex-shrink: 0; }
+    .artcard-body { flex: 1; min-width: 0; }
+    .artcard-head {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px;
+    }
+    .artcard-title { font-size: 1rem; font-weight: 700; color: var(--gold); }
+    .artcard-badge {
+      font-size: 0.66rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--green); background: var(--green-s);
+      border: 1px solid rgba(34,197,94,0.25); border-radius: 5px; padding: 2px 8px;
+    }
+    .artcard-desc { font-size: 0.85rem; color: var(--text-2); line-height: 1.65; margin-bottom: 14px; }
+    .artcard-links { display: flex; gap: 18px; flex-wrap: wrap; }
+    .artcard-links a {
+      font-size: 0.82rem; font-weight: 600; color: var(--text-2); transition: color 0.15s;
+    }
+    .artcard-links a:hover { color: var(--gold); text-decoration: none; }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 660px) {
       .hero h1 { font-size: 2.6rem; }
       .bento { grid-template-columns: 1fr; }
       .about-layout { grid-template-columns: 1fr; }
+      .airoad { padding: 24px 20px; }
+      .artcard { flex-direction: column; gap: 12px; }
       nav { padding: 0 16px; }
       .nav-links { gap: 18px; }
     }
@@ -329,6 +393,7 @@
   <span class="logo">denysporynets</span>
   <ul class="nav-links">
     <li><a href="#proyectos">Proyectos</a></li>
+    <li><a href="#ai-engineering">Ruta AI</a></li>
     <li><a href="#sobre-mi">Sobre mí</a></li>
     <li><a href="https://github.com/denysporynets" target="_blank">GitHub</a></li>
   </ul>
@@ -467,6 +532,45 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- RUTA AI ENGINEERING -->
+<section id="ai-engineering">
+  <div class="container">
+    <div class="sec-eyebrow">en curso</div>
+    <div class="sec-title">Ruta AI Engineering <span>de Data Scientist a AI Engineer</span></div>
+
+    <div class="airoad fade-in">
+      <div class="airoad-top">
+        <div class="airoad-title">Seis artefactos en producción, no seis meses de cursos</div>
+        <div class="airoad-count">1 / 6 desplegados</div>
+      </div>
+      <div class="airoad-bar"><div class="airoad-fill"></div></div>
+      <p class="airoad-desc">
+        Reorientación activa hacia AI Engineering con una métrica clara: <strong>qué he puesto en
+        producción y se usa de verdad</strong>, no cuántos cursos completo. Cada hito es un artefacto
+        desplegado; la bitácora completa traza los seis.
+      </p>
+
+      <div class="artcard">
+        <div class="artcard-icon">🔌</div>
+        <div class="artcard-body">
+          <div class="artcard-head">
+            <span class="artcard-title">Artefacto 1 · Analizador de ofertas (LLM → JSON)</span>
+            <span class="artcard-badge">✓ Desplegado</span>
+          </div>
+          <p class="artcard-desc">
+            Mini-servicio CLI que extrae los datos de una oferta de empleo en JSON estructurado,
+            llamando al LLM por SDK directo (Claude y OpenAI) con salida validada por Pydantic.
+          </p>
+          <div class="artcard-links">
+            <a href="https://denysporynets.github.io/AI-Roadmap/artefacto-1/">Ver artefacto →</a>
+            <a href="https://denysporynets.github.io/AI-Roadmap/ROADMAP.html">Ver roadmap completo →</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
