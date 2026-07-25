@@ -203,10 +203,42 @@
   .sec-head .thesis em { font-style: italic; color: var(--signal); }
   .sec-head .telemetry { margin: 20px 0 0; }
 
-  /* ─── BITÁCORA ─── */
-  .ledger { display: flex; flex-direction: column; }
-  .row { display: grid; grid-template-columns: 3ch 1fr auto; gap: 20px 24px; padding-block: 26px; border-top: 1px solid var(--line); align-items: start; }
-  .row:last-child { border-bottom: 1px solid var(--line); }
+  /* ─── BITÁCORA (carrusel horizontal) ─── */
+  .carousel { position: relative; margin-top: 6px; }
+  .ledger {
+    display: flex; flex-direction: row; align-items: stretch;
+    overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  /* la scrollbar solo se oculta cuando el JS ya montó las flechas/puntos:
+     si el script falla, la barra nativa sigue siendo la salida para el ratón */
+  .carousel.is-ready .ledger { scrollbar-width: none; }
+  .carousel.is-ready .ledger::-webkit-scrollbar { display: none; }
+  .ledger:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+  .row {
+    flex: 0 0 100%; scroll-snap-align: start;
+    display: grid; grid-template-columns: 3ch 1fr auto; gap: 20px 24px;
+    padding: 32px 6px 36px; align-items: start; align-content: start;
+    min-height: 260px;
+  }
+  .carousel-nav { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 22px; }
+  .car-arrow {
+    font-family: var(--font-mono); width: 38px; height: 38px; flex: none;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 1.15rem;
+    color: var(--pine); background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: 50%; cursor: pointer;
+    transition: background .15s ease, opacity .15s ease, border-color .15s ease;
+  }
+  .car-arrow:hover:not(:disabled) { background: var(--paper-3); border-color: var(--sage); }
+  .car-arrow:disabled { opacity: 0.3; cursor: default; }
+  .car-dots { display: flex; align-items: center; gap: 11px; }
+  .car-dot {
+    width: 8px; height: 8px; padding: 0; border-radius: 50%;
+    border: 1px solid var(--sage); background: transparent; cursor: pointer;
+    transition: background .18s ease, transform .18s ease, border-color .18s ease;
+  }
+  .car-dot:hover { border-color: var(--signal); }
+  .car-dot[aria-current="true"] { background: var(--signal); border-color: var(--signal); transform: scale(1.3); }
   .row-idx { font-family: var(--font-mono); font-size: 0.82rem; color: var(--sage); padding-top: 4px; }
   .row-title { font-family: var(--font-display); font-size: 1.28rem; line-height: 1.25; color: var(--ink); margin: 0 0 8px; }
   .row-desc { font-size: 0.95rem; color: var(--ink); max-width: 60ch; margin: 0 0 14px; opacity: 0.86; }
@@ -241,7 +273,8 @@
   .spark .cap { font-family: var(--font-mono); font-size: 0.72rem; color: var(--sage); }
   .spark .cap b { color: var(--brass); font-weight: 600; }
   .spark-line { fill: none; stroke: var(--brass); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 200; stroke-dashoffset: 200; transition: stroke-dashoffset 1.1s ease; }
-  .revealed .spark-line { stroke-dashoffset: 0; }
+  /* se dibuja cuando su diapositiva es la activa del carrusel, no al aparecer la sección */
+  .row.is-active .spark-line { stroke-dashoffset: 0; }
 
   /* ─── FUNDAMENTOS ─── */
   .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
@@ -278,6 +311,7 @@
     .reveal { opacity: 1; transform: none; filter: none; transition: none; }
     .spark-line { transition: none; stroke-dashoffset: 0; }
     .bg-contours { display: none; }
+    .ledger { scroll-behavior: auto; }
   }
 </style>
 </head>
@@ -401,16 +435,15 @@
         <p class="thesis"><em>Seis artefactos en producción. No seis meses de cursos.</em></p>
         <p>El estado dice la verdad: lo desplegado corre en Cloud Run tras un token; lo interno es la herramienta que da confianza a lo que sí se expone.</p>
         <div class="telemetry num">
-          <span><span class="dot"></span><span class="live">4 desplegados</span></span>
+          <span><span class="dot"></span><span class="live">5 desplegados</span></span>
           <span class="sep">/</span>
-          <span>5 construidos</span>
-          <span class="sep">/</span>
-          <span>última señal: rev 00003</span>
+          <span>6 construidos</span>
         </div>
       </div>
 
-      <div class="ledger">
-        <article class="row reveal">
+      <div class="carousel reveal" data-carousel>
+        <div class="ledger" tabindex="0" role="region" aria-roledescription="carrusel" aria-label="Artefactos de la ruta AI Engineering">
+        <article class="row">
           <div class="row-idx num">01</div>
           <div>
             <h3 class="row-title">Analizador de ofertas · LLM → JSON</h3>
@@ -424,7 +457,7 @@
           <div class="status deployed">Desplegado</div>
         </article>
 
-        <article class="row reveal">
+        <article class="row">
           <div class="row-idx num">02</div>
           <div>
             <h3 class="row-title">RAG sobre un corpus personal</h3>
@@ -445,7 +478,7 @@
           <div class="status deployed">Desplegado</div>
         </article>
 
-        <article class="row reveal">
+        <article class="row">
           <div class="row-idx num">03</div>
           <div>
             <h3 class="row-title">Harness de evaluación del RAG</h3>
@@ -466,7 +499,7 @@
           <div class="status internal">Interno</div>
         </article>
 
-        <article class="row reveal">
+        <article class="row">
           <div class="row-idx num">04</div>
           <div>
             <h3 class="row-title">Agente de búsqueda de empleo</h3>
@@ -481,7 +514,7 @@
           <div class="status deployed">Desplegado</div>
         </article>
 
-        <article class="row reveal">
+        <article class="row">
           <div class="row-idx num">05</div>
           <div>
             <h3 class="row-title">Endurecimiento de prompts + structured outputs</h3>
@@ -494,6 +527,26 @@
           </div>
           <div class="status deployed">Desplegado</div>
         </article>
+
+        <article class="row">
+          <div class="row-idx num">06</div>
+          <div>
+            <h3 class="row-title">Monitorización del agente en producción</h3>
+            <p class="row-desc">Cada petición al agente deja rastro: cuánto costó en euros y si falló. Un medidor (<em>ContextVar</em>) y una bitácora en JSON a Cloud Logging responden con datos reales cuánto cuesta y cuánto se rompe, con un espejo del historial en MLflow. El DoD —coste por petición y porcentaje de fallos— respondido con producción, no con estimaciones.</p>
+            <div class="row-meta">
+              <div class="spark" aria-label="Lectura de producción: 0,001974 dólares por petición y 0 fallos de 3">
+                <span class="cap num">$0,001974 / petición · <b>0 fallos de 3</b></span>
+              </div>
+            </div>
+            <div class="row-links">
+              <a href="https://denysporynets.github.io/AI-Roadmap/artefacto-6/">Ver artefacto →</a>
+              <a href="https://dobe-agente-1015586629315.europe-southwest1.run.app" target="_blank" rel="noopener">Probar demo ↗</a>
+            </div>
+          </div>
+          <div class="status deployed">Desplegado</div>
+        </article>
+        </div>
+        <div class="carousel-nav" aria-hidden="true"></div>
       </div>
     </div>
   </section>
@@ -729,6 +782,72 @@
       });
     }
   });
+
+  // ── carrusel de la bitácora ──
+  try {
+    document.querySelectorAll("[data-carousel]").forEach((car) => {
+      const track = car.querySelector(".ledger");
+      const nav   = car.querySelector(".carousel-nav");
+      const slides = track ? Array.from(track.querySelectorAll(".row")) : [];
+      if (!track || !nav || slides.length < 2) { if (nav) nav.remove(); return; }
+
+      nav.removeAttribute("aria-hidden");
+      const prev = document.createElement("button");
+      prev.className = "car-arrow"; prev.type = "button";
+      prev.setAttribute("aria-label", "Artefacto anterior"); prev.textContent = "‹";
+      const dots = document.createElement("div");
+      dots.className = "car-dots";
+      const next = document.createElement("button");
+      next.className = "car-arrow"; next.type = "button";
+      next.setAttribute("aria-label", "Artefacto siguiente"); next.textContent = "›";
+      nav.append(prev, dots, next);
+
+      let current = 0;
+      const dotEls = slides.map((_, i) => {
+        const d = document.createElement("button");
+        d.className = "car-dot"; d.type = "button";
+        d.setAttribute("aria-label", "Ir al artefacto " + String(i + 1).padStart(2, "0"));
+        d.addEventListener("click", () => go(i));
+        dots.appendChild(d);
+        return d;
+      });
+
+      function go(i) {
+        i = Math.max(0, Math.min(slides.length - 1, i));
+        track.scrollTo({ left: i * track.clientWidth, behavior: reduce ? "auto" : "smooth" });
+      }
+      function sync() {
+        const i = track.clientWidth ? Math.round(track.scrollLeft / track.clientWidth) : 0;
+        current = Math.max(0, Math.min(slides.length - 1, i));
+        slides.forEach((s, k) => s.classList.toggle("is-active", k === current));
+        dotEls.forEach((d, k) => d.setAttribute("aria-current", k === current ? "true" : "false"));
+        const atStart = current === 0, atEnd = current === slides.length - 1;
+        // no deshabilitar una flecha que tiene el foco: primero lo movemos a la otra
+        if (atStart && document.activeElement === prev) next.focus();
+        if (atEnd && document.activeElement === next) prev.focus();
+        prev.disabled = atStart;
+        next.disabled = atEnd;
+      }
+      prev.addEventListener("click", () => go(current - 1));
+      next.addEventListener("click", () => go(current + 1));
+      track.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft")  { e.preventDefault(); go(current - 1); }
+        else if (e.key === "ArrowRight") { e.preventDefault(); go(current + 1); }
+      });
+      let raf = 0;
+      track.addEventListener("scroll", () => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => { raf = 0; sync(); });
+      }, { passive: true });
+      let rz = 0;
+      window.addEventListener("resize", () => {
+        clearTimeout(rz);
+        rz = setTimeout(() => { track.scrollTo({ left: current * track.clientWidth, behavior: "auto" }); sync(); }, 160);
+      });
+      car.classList.add("is-ready");   // el nav ya está montado: ahora sí se oculta la scrollbar
+      sync();
+    });
+  } catch (e) {}
 </script>
 
 </body>
